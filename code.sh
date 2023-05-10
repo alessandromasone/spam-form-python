@@ -1,0 +1,1 @@
+python3 main.py -n 10 -t 10 -v -r https://tonybike.altervista.org/static/registrazione.php data.json

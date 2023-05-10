@@ -1,0 +1,7 @@
+{
+    "nome": "faker.first_name",
+    "cognome": "faker.last_name",
+    "email": "faker.email",
+    "username": "faker.user_name",
+    "password": "faker.password"
+}
