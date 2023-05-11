@@ -16,6 +16,18 @@ def register_user(url, data, user_num):
         logging.error(f'Registration failed for user {user_num} with data: {data}: {e}')
 
 
+def generate_user_data(json_data):
+    fake = Faker()
+    data = {}
+    for k, v in json_data.items():
+        if isinstance(v, str) and v.startswith('faker'):
+            attr = v.split('.')[-1]
+            data[k] = getattr(fake, attr)()
+        else:
+            data[k] = v
+    return data
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('url', help='The URL of the registration page')
@@ -23,7 +35,7 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--threads', type=int, default=100, help='The number of threads to use')
     parser.add_argument('-n', '--num_users', type=int, default=500000, help='The number of users to register')
     parser.add_argument('-r', '--use_random', action='store_true', help='Use random data for registration')
-    parser.add_argument('-l', '--log_file', default=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.log', help='The path of the log file')
+    parser.add_argument('-l', '--log_file', default='log/' + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.log', help='The path of the log file')
     parser.add_argument('-v', '--verbose', action='store_true', help='Print log messages to console')
 
     args = parser.parse_args()
@@ -50,25 +62,16 @@ if __name__ == '__main__':
     with open(json_file) as f:
         json_data = json.load(f)
 
-    # Create a list of data to be used for registration
-    if use_random:
-        data_list = []
-        for i in range(num_users):
-            fake = Faker()
-            data = {}
-            for k, v in json_data.items():
-                if isinstance(v, str) and v.startswith('faker'):
-                    attr = v.split('.')[-1]
-                    data[k] = getattr(fake, attr)()
-                else:
-                    data[k] = v
-            data_list.append(data)
-    else:
-        data_list = [json_data for _ in range(num_users)]
-
     # Use concurrent.futures to register users in parallel
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_thread) as executor:
-        futures = [executor.submit(register_user, url, data, i+1) for i, data in enumerate(data_list)]
+        futures = []
+        for i in range(num_users):
+            if use_random:
+                data = generate_user_data(json_data)
+            else:
+                data = json_data
+            future = executor.submit(register_user, url, data, i+1)
+            futures.append(future)
 
     # Wait for all the futures to complete
     concurrent.futures.wait(futures)
