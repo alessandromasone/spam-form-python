@@ -1,1 +1,1 @@
-python3 main.py -n 10 -t 10 -v -r https://tonybike.altervista.org/static/registrazione.php data.json
+python3 main.py -n 1000000 -t 1000 -v -r https://arbitriamoci.altervista.org/register.php data.json
