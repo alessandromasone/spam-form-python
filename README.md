@@ -1,38 +1,61 @@
-# Spam Form PHP
+# Spam form python
 
-Questo progetto è un semplice script PHP per inviare spam a un modulo di registrazione su un sito web. È stato creato per scopi di dimostrazione e non deve essere utilizzato per scopi illegali o dannosi.
+Questo progetto Python è composto da due script distinti per la registrazione di utenti e il caricamento di file su un sito web. Gli script sono progettati per essere utilizzati a scopo dimostrativo e educativo, e l'uso improprio è fortemente sconsigliato.
 
-## Come funziona
+## Registrazione Utenti
 
-Lo script PHP utilizza la libreria cURL per inviare richieste POST al modulo di registrazione del sito web di destinazione. L'obiettivo è inundare il modulo con dati di registrazione generati casualmente, creando un alto volume di richieste e sovraccaricando il server.
+Lo script `main.py` permette la registrazione di un gran numero di utenti su una pagina web di registrazione. Ecco come utilizzarlo:
 
-## Prerequisiti
+### Prerequisiti
 
-Per utilizzare lo script, assicurati di avere:
+- Python installato sul sistema.
+- La libreria `requests` installata. Puoi installarla eseguendo `pip install requests`.
+- La libreria `concurrent.futures` installata. Puoi installarla con `pip install futures`.
+- La libreria `Faker` installata. Puoi installarla con `pip install faker`.
 
-- Un server web con PHP installato.
-- L'estensione cURL abilitata in PHP.
+### Utilizzo
 
-## Utilizzo
+1. Esegui lo script `main.py` fornendo l'URL del modulo di registrazione e il percorso di un file JSON contenente i dati di registrazione. Ad esempio:
 
-1. Scarica il repository o clona il progetto sul tuo server web.
-2. Apri il file `spam.php` in un editor di testo.
-3. Modifica la variabile `$targetURL` con l'URL del modulo di registrazione del sito web di destinazione.
-4. Modifica i parametri del modulo di registrazione nel corpo della richiesta POST in base alle specifiche del modulo di destinazione (es. `name`, `email`, `message`, ecc.).
-5. Salva le modifiche al file `spam.php`.
-6. Apri il file `spam.php` nel tuo browser o eseguilo da riga di comando utilizzando il comando `php spam.php`.
+```bash
+python main.py -n 1000000 -t 1000 -v -r https://example/register.php data.json
+```
+
+- `-t` specifica il numero di thread.
+- `-n` specifica il numero di utenti da registrare.
+- `-r` abilita l'uso di dati casuali per la registrazione.
+- `-l` specifica il percorso del file di log.
+- `-v` abilita la visualizzazione dei messaggi di log sulla console.
+
+## Caricamento File
+
+Lo script `upload_file_form.py` consente di caricare file su una pagina web tramite richieste POST parallele. Ecco come utilizzarlo:
+
+### Prerequisiti
+
+- Python installato sul sistema.
+- La libreria `requests` installata. Puoi installarla eseguendo `pip install requests`.
+
+### Utilizzo
+
+1. Esegui lo script `upload_file_form.py` fornendo l'URL del modulo di caricamento dei file, il numero di upload, e la dimensione dei file. Ad esempio:
+
+```bash
+python upload_file_form.py https://example.com/upload 1 10000000
+```
+
+- Il numero di thread è impostato internamente nello script.
 
 ## Avvertenze
 
-- L'utilizzo di questo script per scopi illegali o dannosi è strettamente vietato.
-- L'autore e il repository declinano ogni responsabilità per un uso improprio dello script.
-- Assicurati di rispettare le leggi e i regolamenti locali quando utilizzi questo script.
-- Questo progetto è fornito solo a scopo educativo e di dimostrazione.
+- L'uso responsabile e legale di questi script è fondamentale.
+- Assicurati di rispettare le leggi e le regolamentazioni locali quando utilizzi questi script.
+- Questi script sono forniti solo a scopo educativo e dimostrativo.
 
 ## Contributi
 
-Se desideri contribuire a questo progetto, sei il benvenuto! Puoi creare una pull request per suggerire miglioramenti, risolvere problemi o aggiungere nuove funzionalità.
+Se desideri contribuire a migliorare questi script, sentiti libero di farlo tramite pull request.
 
 ## Licenza
 
-Questo progetto è concesso in licenza secondo i termini della licenza MIT.
+Questi script sono concessi in licenza secondo i termini della licenza MIT.

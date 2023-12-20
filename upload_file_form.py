@@ -1,6 +1,4 @@
-import requests
-import random
-import string
+import argparse
 import threading
 import os
 import uuid
@@ -34,9 +32,16 @@ def upload_files(url, num_uploads, file_size):
         upload_file(url, file_path)
 
 if __name__ == '__main__':
-    url = 'https://footballreview.altervista.org/tpsit/upload.php';
-    num_uploads = 1
-    file_size = 10000000
+    parser = argparse.ArgumentParser()
+    parser.add_argument('url', help='The URL of the file upload page')
+    parser.add_argument('num_uploads', type=int, help='The number of file uploads to perform')
+    parser.add_argument('file_size', type=int, help='The size of the random files to be uploaded')
+
+    args = parser.parse_args()
+
+    url = args.url
+    num_uploads = args.num_uploads
+    file_size = args.file_size
 
     threads = []
     for _ in range(num_uploads):
